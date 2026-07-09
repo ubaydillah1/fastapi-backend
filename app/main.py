@@ -1,10 +1,11 @@
-from fastapi import Depends, FastAPI
+from fastapi import FastAPI
 from sqlalchemy import text
-from sqlalchemy.orm import Session
 
 from app.core.database import session
+from app.routers import api_router
 
 app = FastAPI()
+app.include_router(api_router)
 
 
 @app.get("/")
