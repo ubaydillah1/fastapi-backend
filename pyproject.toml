@@ -1,0 +1,18 @@
+[project]
+name = "my-fastapi-app"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "alembic>=1.16.4",
+    "fastapi[standard]>=0.139.0",
+    "psycopg2>=2.9.12",
+    "sqlalchemy>=2.0.51",
+    "sqlmodel>=0.0.39",
+]
+
+[dependency-groups]
+dev = [
+    "mypy>=2.1.0",
+]
