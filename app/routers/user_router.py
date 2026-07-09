@@ -9,7 +9,7 @@ from app.controllers.user_controller import (
     list_users,
     update_user,
 )
-from app.core.database import session
+from app.dependencies.user import get_user_service
 from app.schemas.user import (
     UserCreate,
     UserDetailResponse,
@@ -20,10 +20,6 @@ from app.schemas.user import (
 from app.services.user import UserService
 
 router = APIRouter(prefix="/users", tags=["users"])
-
-
-def get_user_service() -> UserService:
-    return UserService(session)
 
 
 @router.get("", response_model=UsersResponse)

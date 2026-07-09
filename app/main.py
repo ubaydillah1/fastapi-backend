@@ -5,7 +5,7 @@ from app.core.database import session
 from app.routers import api_router
 
 app = FastAPI()
-app.include_router(api_router)
+app.include_router(router=api_router)
 
 
 @app.get("/")

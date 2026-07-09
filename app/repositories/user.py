@@ -2,7 +2,7 @@ from uuid import UUID
 
 from sqlalchemy.orm import Session
 
-from app.models.user import User
+from app.models.table import User
 from app.schemas.user import UserCreate, UserUpdate
 
 

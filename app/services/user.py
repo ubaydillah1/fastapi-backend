@@ -1,15 +1,14 @@
 from uuid import UUID
 
 from fastapi import HTTPException, status
-from sqlalchemy.orm import Session
 
 from app.repositories.user import UserRepository
 from app.schemas.user import UserCreate, UserUpdate
 
 
 class UserService:
-    def __init__(self, db: Session):
-        self.repository = UserRepository(db)
+    def __init__(self, repository: UserRepository):
+        self.repository = repository
 
     def list_users(self):
         return self.repository.get_all()

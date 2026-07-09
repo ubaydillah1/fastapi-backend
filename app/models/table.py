@@ -1,4 +1,4 @@
-import uuid
+from uuid import UUID
 
 from typing import List
 from sqlalchemy import Integer, String, Uuid, ForeignKey
@@ -9,7 +9,7 @@ from app.models import Base
 
 class User(Base):
     __tablename__ = "users"
-    id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    id: Mapped[UUID] = mapped_column(Uuid, primary_key=True, default=UUID)
     name: Mapped[str] = mapped_column(String(30))
     age: Mapped[int] = mapped_column(Integer)
     posts: Mapped[List["Post"]] = relationship(
@@ -19,8 +19,8 @@ class User(Base):
 
 class Post(Base):
     __tablename__ = "posts"
-    id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    id: Mapped[UUID] = mapped_column(Uuid, primary_key=True, default=UUID)
     name: Mapped[str] = mapped_column(String(30))
     description: Mapped[str] = mapped_column(String(255))
-    user_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("users.id"))
+    user_id: Mapped[UUID] = mapped_column(ForeignKey("users.id"))
     user: Mapped["User"] = relationship(back_populates="posts")
