@@ -16,8 +16,30 @@ class UserRepository:
     def get_by_id(self, user_id: UUID) -> User | None:
         return self.db.get(User, user_id)
 
+    def get_by_email(self, email: str) -> User | None:
+        return self.db.query(User).filter(User.email == email).first()
+
     def create(self, payload: UserCreate) -> User:
-        user = User(name=payload.name, age=payload.age)
+        user = User(
+            name=payload.name,
+            age=payload.age,
+            email=payload.email,
+            password=payload.password,
+        )
+        self.db.add(user)
+        self.db.commit()
+        self.db.refresh(user)
+        return user
+
+    def create_auth_user(
+        self,
+        *,
+        email: str,
+        password: str,
+        name: str,
+        age: int,
+    ) -> User:
+        user = User(email=email, password=password, name=name, age=age)
         self.db.add(user)
         self.db.commit()
         self.db.refresh(user)

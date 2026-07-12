@@ -4,6 +4,7 @@ from fastapi import HTTPException, status
 
 from app.repositories.user import UserRepository
 from app.schemas.user import UserCreate, UserUpdate
+from app.utils.security import hash_password
 
 
 class UserService:
@@ -23,7 +24,20 @@ class UserService:
         return user
 
     def create_user(self, payload: UserCreate):
-        return self.repository.create(payload)
+        existing_user = self.repository.get_by_email(str(payload.email))
+        if existing_user is not None:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Email already registered",
+            )
+
+        create_payload = payload.model_copy(
+            update={
+                "email": str(payload.email),
+                "password": hash_password(payload.password),
+            }
+        )
+        return self.repository.create(create_payload)
 
     def update_user(self, user_id: UUID, payload: UserUpdate):
         user = self.get_user(user_id)
